@@ -1,0 +1,52 @@
+.form-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  padding: 2rem;
+  max-width: 700px;
+
+  h2 { margin-top: 0; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-bottom: 1.2rem;
+  flex: 1;
+
+  label { font-size: .85rem; font-weight: 600; color: #374151; }
+
+  input, textarea, select {
+    padding: .6rem .8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: .95rem;
+    font-family: inherit;
+    transition: border-color .15s;
+    &:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+  }
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  .field { flex: 1; }
+}
+
+.hint { font-size: .78rem; color: #dc2626; }
+
+.actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: .75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}

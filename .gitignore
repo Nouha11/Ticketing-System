@@ -1,0 +1,42 @@
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+*.key
+*.pem
+
+# ── Markdown docs (local notes, not for repo) ─────────────────────────────────
+*.md
+
+# ── .NET / ASP.NET Core ───────────────────────────────────────────────────────
+api/bin/
+api/obj/
+api/*.db          # SQLite database file — data only, not code
+api/*.db-shm
+api/*.db-wal
+
+# User-specific Visual Studio / Rider files
+*.user
+*.suo
+.vs/
+*.DotSettings.user
+
+# Publish output
+api/publish/
+
+# ── Angular ───────────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/    # build cache
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+# .env is already covered above
+# Do NOT ignore docker-compose.yml — it belongs in the repo
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*

@@ -1,0 +1,38 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h1>🎫 IT Ticketing</h1>
+    <p class="subtitle">Sign in to your account</p>
+
+    @if (error()) {
+      <div class="alert-error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@company.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="loading()">
+        {{ loading() ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </form>
+
+    <!-- Demo shortcuts -->
+    <div class="demo-section">
+      <p>Demo accounts (password: <code>Password123!</code>)</p>
+      <div class="demo-btns">
+        <button class="btn btn-sm btn-secondary" (click)="fillAdmin()">Admin</button>
+        <button class="btn btn-sm btn-secondary" (click)="fillAgent()">Agent</button>
+        <button class="btn btn-sm btn-secondary" (click)="fillUser()">User</button>
+      </div>
+    </div>
+
+    <p class="switch-link">
+      Don't have an account? <a routerLink="/register">Create one</a>
+    </p>
+  </div>
+</div>

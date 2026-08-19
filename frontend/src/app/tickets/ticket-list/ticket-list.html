@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>🎫 IT Support Tickets</h1>
+  <a routerLink="/tickets/new" class="btn btn-primary">+ New Ticket</a>
+</div>
+
+@if (loading()) {
+  <div class="loading">Loading tickets…</div>
+} @else if (error()) {
+  <div class="alert-error">{{ error() }}</div>
+} @else if (tickets().length === 0) {
+  <div class="empty-state">No tickets yet. Create one!</div>
+} @else {
+  <table class="ticket-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (ticket of tickets(); track ticket.id) {
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td><a [routerLink]="['/tickets', ticket.id, 'edit']">{{ ticket.title }}</a></td>
+          <td>{{ ticket.category }}</td>
+          <td><span class="badge" [ngClass]="priorityClass(ticket.priority)">{{ ticket.priority }}</span></td>
+          <td><span class="status" [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span></td>
+          <td>{{ ticket.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <a [routerLink]="['/tickets', ticket.id, 'edit']" class="btn btn-sm btn-secondary">Edit</a>
+            <button (click)="deleteTicket(ticket.id)" class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

@@ -1,0 +1,53 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h1>🎫 IT Ticketing</h1>
+    <p class="subtitle">Create a new account</p>
+
+    @if (error()) {
+      <div class="alert-error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" formControlName="fullName" placeholder="Jane Doe" />
+        @if (form.get('fullName')?.invalid && form.get('fullName')?.touched) {
+          <span class="hint">Full name is required.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@company.com" />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="hint">Valid email is required.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Min. 6 characters" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <span class="hint">Password must be at least 6 characters.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label>Role</label>
+        <select formControlName="role">
+          @for (r of roles; track r) {
+            <option [value]="r">{{ r }}</option>
+          }
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="loading()">
+        {{ loading() ? 'Creating account…' : 'Create Account' }}
+      </button>
+    </form>
+
+    <p class="switch-link">
+      Already have an account? <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>
