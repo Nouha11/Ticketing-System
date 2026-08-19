@@ -1,14 +1,43 @@
 services:
+
   api:
-    build: ./api
+    image: nouhah/ticketing-api:latest
+    container_name: api_container
+    restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "0.0.0.0:5000:8080"
     environment:
-      ASPNETCORE_URLS: "http://+:5000"
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__Default: "Data Source=/app/data/ticketing.db"
+      Jwt__Key: "super-secret-key-change-this-in-production-min32chars!"
+      Jwt__Issuer: "TicketingApi"
+      Jwt__Audience: "TicketingApp"
+    volumes:
+      - db-data:/app/data
+    networks:
+      - ticketing-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/tickets || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
   frontend:
-    build: ./frontend
+    image: nouhah/ticketing-frontend:latest
+    container_name: frontend_container
+    restart: unless-stopped
     ports:
-      - "4200:80"
+      - "0.0.0.0:4200:80"
+    networks:
+      - ticketing-network
     depends_on:
-      - api
+      api:
+        condition: service_healthy
+
+volumes:
+  db-data:
+
+networks:
+  ticketing-network:
+    driver: bridge
