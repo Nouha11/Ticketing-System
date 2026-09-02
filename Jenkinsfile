@@ -22,7 +22,7 @@ pipeline {
                     usernameVariable: 'DOCKERHUB_USERNAME',
                     passwordVariable: 'DOCKERHUB_TOKENJ'
                 )]) {
-                    bat 'echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
+                    bat 'echo %DOCKERHUB_TOKENJ% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
                 }
             }
         }
