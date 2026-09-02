@@ -11,7 +11,7 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                sh 'git clone https://github.com/Nouha11/Ticketing-System.git'
+                bat 'git clone https://github.com/Nouha11/Ticketing-System.git'
             }
         }
 
@@ -22,9 +22,7 @@ pipeline {
                     usernameVariable: 'DOCKERHUB_USERNAME',
                     passwordVariable: 'DOCKERHUB_TOKEN'
                 )]) {
-                    sh '''
-                        echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-                    '''
+                    bat 'echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
                 }
             }
         }
@@ -32,10 +30,10 @@ pipeline {
         stage('Build API Image') {
             steps {
                 dir('Ticketing-System/api') {
-                    sh 'dotnet restore TicketingApi.csproj'
-                    sh 'dotnet publish TicketingApi.csproj -c Release -o ./publish'
-                    sh 'docker build -t nouhah/ticketing-api . --no-cache'
-                    sh 'docker push nouhah/ticketing-api'
+                    bat 'dotnet restore TicketingApi.csproj'
+                    bat 'dotnet publish TicketingApi.csproj -c Release -o ./publish'
+                    bat 'docker build -t nouhah/ticketing-api . --no-cache'
+                    bat 'docker push nouhah/ticketing-api'
                 }
             }
         }
@@ -43,8 +41,8 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 dir('Ticketing-System/frontend') {
-                    sh 'docker build -t nouhah/ticketing-frontend . --no-cache'
-                    sh 'docker push nouhah/ticketing-frontend'
+                    bat 'docker build -t nouhah/ticketing-frontend . --no-cache'
+                    bat 'docker push nouhah/ticketing-frontend'
                 }
             }
         }
@@ -52,11 +50,23 @@ pipeline {
         stage('Run Docker Compose') {
             steps {
                 dir('Ticketing-System') {
-                    sh 'docker compose down --volumes'
-                    sh 'docker compose pull'
-                    sh 'docker compose -f docker-compose.yml up -d'
+                    bat 'docker compose down --volumes'
+                    bat 'docker compose pull'
+                    bat 'docker compose -f docker-compose.yml up -d'
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+        always {
+            bat 'docker logout'
         }
     }
 }
