@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-/*         stage('Build API Image') {
+         stage('Build API Image') {
             steps {
                 dir('Ticketing-System/api') {
                     bat 'dotnet restore TicketingApi.csproj'
@@ -36,20 +36,8 @@ pipeline {
                     bat 'docker push nouhah/ticketing-api'
                 }
             }
-        } */
+        } 
 
-        stage('Build API Image') {
-            steps {
-                dir('Ticketing-System/api') {
-                    bat 'dotnet restore TicketingApi.csproj'
-                    bat 'dotnet publish TicketingApi.csproj -c Release -o ./publish'
-                    bat 'docker build -t nouhah/ticketing-api . --no-cache'
-                    retry(3) {
-                        bat 'docker push nouhah/ticketing-api'
-                    }
-                }
-            }
-        }
 
         stage('Build Frontend Image') {
             steps {
